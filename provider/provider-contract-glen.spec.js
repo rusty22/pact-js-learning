@@ -1,9 +1,8 @@
 const { Verifier } = require('@pact-foundation/pact');
-const { importData, server } = require('./provider')
+const { importData, movies, server } = require('./provider')
 
 const port = '3001';
-const app = server.listen(port, () => console.log(`Listening 
-on port ${port}...`));
+const app = server.listen(port, () => console.log(`Listening on port ${port}...`));
 
 importData();
 
@@ -17,12 +16,11 @@ const options = {
   consumerVersionTags: ['main'],
   stateHandlers: {
     'Has a movie with specific ID': (parameters) => {
-         movies.getFirstMovie().id = parameters.id;
-        return Promise.resolve({ description: `Movie with ID 
-        ${parameters.id} added!` });
+      movies.getFirstMovie().id = parameters.id;
+      return Promise.resolve({ description: `Movie with ID ${parameters.id} added!` });
     }
   }
-};
+}
 
 const verifier = new Verifier(options);
 
