@@ -1,6 +1,8 @@
 const path = require('path');
-const { fetchMovies } = require('./consumer');
+const { fetchMovies, fetchSingleMovie } = require('./consumer');
 const { PactV3, MatchersV3 } = require('@pact-foundation/pact');
+
+const { integer, string, eachLike } = MatchersV3;
 
 const provider = new PactV3({
   dir: path.resolve(process.cwd(), 'pacts'),
@@ -20,13 +22,42 @@ describe('Movies Service', () => {
         })
         .willRespondWith({
           status: 200,
-          body: MatchersV3.eachLike(EXPECTED_BODY),
+          body: eachLike(EXPECTED_BODY),
         });
 
       await provider.executeTest(async mockProvider => {
         const movies = await fetchMovies(mockProvider.url);
         expect(movies[0]).toEqual(EXPECTED_BODY);
       })
+    });
+  });
+
+  describe('When a GET request is made to a specific movie ID', () => {
+    test('it should return a specific movie', async () => {
+      const EXPECTED_BODY = { id: 1, name: "My movie", year: 1999 };
+      const testId = 100;
+      EXPECTED_BODY.id = testId;
+
+      provider
+        .given('Has a movie with specific ID', { id: testId })
+        .uponReceiving('a request to a specific movie')
+        .withRequest({
+            method: 'GET',
+            path: `/movie/${testId}`,
+          })
+          .willRespondWith({
+            status: 200,
+            body: {
+              id: integer(testId),
+              name: string(EXPECTED_BODY.name),
+              year: integer(EXPECTED_BODY.year)
+            }
+          });
+        
+        await provider.executeTest(async mockProvider => {
+          const movies = await fetchSingleMovie(mockProvider.url, testId);
+          expect(movies).toEqual(EXPECTED_BODY);
+        });
     });
   });
 });
