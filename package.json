@@ -7,7 +7,8 @@
     "start:provider": "cross-env PORT=3001 node provider/provider-service.js",
     "test:web:consumer": "jest consumer-web/consumer-contract.glen.spec.js",
     "publish:pact": "cross-env npx pact-broker publish ./pacts --consumer-app-version=1.0.1 --tag=main --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
-    "test:provider": "jest provider/provider-contract-glen.spec.js --testTimeout=20000"
+    "test:provider": "jest provider/provider-contract-glen.spec.js --testTimeout=20000",
+    "start:graphql:server": "node graphql/provider/graphql-server.js & npm run start:provider"
   },
   "author": "",
   "license": "ISC",
