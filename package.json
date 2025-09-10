@@ -8,7 +8,8 @@
     "test:web:consumer": "jest consumer-web/consumer-contract.glen.spec.js",
     "publish:pact": "cross-env npx pact-broker publish ./pacts --consumer-app-version=1.0.1 --tag=main --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
     "test:provider": "jest provider/provider-contract-glen.spec.js --testTimeout=20000",
-    "start:graphql:server": "node graphql/provider/graphql-server.js & npm run start:provider"
+    "start:graphql:server": "node graphql/provider/graphql-server.js & npm run start:provider",
+    "test:graphql:consumer": "jest graphql/consumer/graphql-client-contract.glen.spec.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "@apollo/datasource-rest": "6.2.2",
     "@apollo/server": "4.9.5",
     "@pact-foundation/pact-cli": "^16.1.2",
+    "@smartbear/mcp": "^0.5.0",
     "axios": "1.5.1",
     "cors": "2.8.5",
     "express": "4.18.2",
