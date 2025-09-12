@@ -30,25 +30,28 @@ const getMovies = async () => {
 };
 
 const getMovieById = async (movieId) => {
-  const response = await client
-    .query({
-      query: gql`
-        query MovieQuery($movieId: Int!) {
-          movie(movieId: $movieId) {
-            id
-            name
-            year
-          },
-        }
-      `,
-      variables: {
-        movieId,
-      },
-    })
-    .then((result) => result.data)
-    .catch((err) => err.response);
-
-  return response;
+  try {
+    const response = await client
+      .query({
+        query: gql`
+          query MovieQuery($movieId: Int!) {
+            movie(movieId: $movieId) {
+              id
+              name
+              year
+            }
+          }
+        `,
+        variables: {
+          movieId,
+        },
+      });
+    
+    return response.data;
+  } catch (err) {
+    console.error('GraphQL query error:', err);
+    throw err;
+  }
 };
 
 module.exports = {

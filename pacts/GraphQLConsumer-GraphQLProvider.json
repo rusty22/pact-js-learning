@@ -8,7 +8,7 @@
       "request": {
         "body": {
           "operationName": "MoviesQuery",
-          "query": "\n                query MoviesQuery {\n                movies {\n                    id\n                    name\n                    year\n                }\n                }\n                ",
+          "query": "\n          query MoviesQuery {\n            movies {\n              id\n              name\n              year\n            }\n          }\n        ",
           "variables": {}
         },
         "headers": {
@@ -29,8 +29,8 @@
             "movies": [
               {
                 "id": 1,
-                "name": "Demon Slayer: Infinity Castle",
-                "year": 2025
+                "name": "My GraphQL movie",
+                "year": 1999
               }
             ]
           }

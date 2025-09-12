@@ -8,10 +8,15 @@ And for each movie, it should return the ID, name, and year it was released.
 */
 
 const path = require('path');
-const { getMovies } = require('./graphql-client.js')
+const { getMovies, getMovieById } = require('./graphql-client.js')
 const { Pact, GraphQLInteraction, Matchers } 
 = require('@pact-foundation/pact');
-const { eachLike } = Matchers;
+
+const {
+    eachLike,
+    integer,
+    string,
+  } = Matchers;
 
 const provider = new Pact({
   port: 4000,
@@ -25,6 +30,10 @@ const EXPECTED_BODY = { id: 1, name: "Demon Slayer: Infinity Castle", year: 2025
 describe('GraphQL example', () => {
     beforeAll(() => provider.setup());
 
+    afterAll(() => provider.finalize());
+
+    afterEach(() => provider.verify());
+
     describe('When a query to list all movies on /graphql is made', () => {
         beforeAll(() => {
             
@@ -33,11 +42,11 @@ describe('GraphQL example', () => {
             .withQuery(
                 `
                 query MoviesQuery {
-                movies {
-                    id
-                    name
-                    year
-                }
+                    movies {
+                        id
+                        name
+                        year
+                    }
                 }
                 `
             )
@@ -53,9 +62,9 @@ describe('GraphQL example', () => {
                 'Content-Type': 'application/json; charset=utf-8',
                 },
                 body: {
-                data: {
-                    movies: eachLike(EXPECTED_BODY),
-                },
+                    data: {
+                        movies: eachLike(EXPECTED_BODY),
+                    },
                 },
             });
 
@@ -66,10 +75,55 @@ describe('GraphQL example', () => {
         test('returns the correct response', async () => {
             const response = await getMovies();
             expect(response.movies[0]).toEqual(EXPECTED_BODY);
-
-            console.log('Verifying the consumer expectation against Pact');
-            provider.verify();
-            provider.finalize();
         });
     });
+
+    describe('When a query to a specific movie on /graphql is made', () => {
+        const demonSlayerTestId = 1;
+
+        beforeAll(() => {
+            const graphqlQuery = new GraphQLInteraction()
+            .given('Has a movie with specific ID', { id: demonSlayerTestId })
+            .uponReceiving('a movie request')
+            .withQuery(
+                `
+                    query MovieQuery($movieId: Int!) {
+                        movie(movieId: $movieId) {
+                            id
+                            name
+                            year
+                        }
+                    }
+                `
+            )
+            .withOperation('MovieQuery')
+            .withVariables({movieId: 1})
+            .withRequest({
+                method: 'POST',
+                path: '/graphql',
+            })
+            .willRespondWith({
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                },
+                body: {
+                    data: {
+                        movie: {
+                        id: integer(EXPECTED_BODY.id),
+                        name: string(EXPECTED_BODY.name),
+                        year: integer(EXPECTED_BODY.year)
+                        },
+                    },
+                },
+            });
+            return provider.addInteraction(graphqlQuery);
+        })
+
+        test('returns the correct response', async () => {
+            const response = await getMovieById(demonSlayerTestId);
+            expect(response.movie).toEqual(EXPECTED_BODY);
+        });
+    });
+
 });
