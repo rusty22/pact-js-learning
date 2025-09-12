@@ -67,6 +67,7 @@ describe('GraphQL example', () => {
             const response = await getMovies();
             expect(response.movies[0]).toEqual(EXPECTED_BODY);
 
+            console.log('Verifying the consumer expectation against Pact');
             provider.verify();
             provider.finalize();
         });
