@@ -134,6 +134,7 @@ describe('Movies API - GraphQL', () => {
 
             test('returns the correct response', async () => {
                 // Small delay to ensure mock server is ready
+                // Might be a bug in how Pact cleans up mock server too early - https://github.com/pact-foundation/pact-js/issues/1066
                 await new Promise(resolve => setTimeout(resolve, 100));
                 const response = await getMovies();
                 await expect(response.movies[0]).toEqual(EXPECTED_BODY);
