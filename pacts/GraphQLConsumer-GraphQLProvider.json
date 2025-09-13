@@ -96,56 +96,6 @@
         },
         "status": 200
       }
-    },
-    {
-      "description": "a movie request",
-      "providerState": "Has a movie with specific ID",
-      "request": {
-        "body": {
-          "operationName": "MovieQuery",
-          "query": "\n                    query MovieQuery($movieId: Int!) {\n                        movie(movieId: $movieId) {\n                            id\n                            name\n                            year\n                        }\n                    }\n                    ",
-          "variables": {
-            "movieId": 1
-          }
-        },
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "matchingRules": {
-          "$.body.query": {
-            "match": "regex",
-            "regex": "\\s*query\\s*MovieQuery\\(\\$movieId:\\s*Int!\\)\\s*\\{\\s*movie\\(movieId:\\s*\\$movieId\\)\\s*\\{\\s*id\\s*name\\s*year\\s*\\}\\s*\\}\\s*"
-          }
-        },
-        "method": "POST",
-        "path": "/graphql"
-      },
-      "response": {
-        "body": {
-          "data": {
-            "movie": {
-              "id": 1,
-              "name": "Demon Slayer: Infinity Castle",
-              "year": 2025
-            }
-          }
-        },
-        "headers": {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        "matchingRules": {
-          "$.body.data.movie.id": {
-            "match": "integer"
-          },
-          "$.body.data.movie.name": {
-            "match": "type"
-          },
-          "$.body.data.movie.year": {
-            "match": "integer"
-          }
-        },
-        "status": 200
-      }
     }
   ],
   "metadata": {
