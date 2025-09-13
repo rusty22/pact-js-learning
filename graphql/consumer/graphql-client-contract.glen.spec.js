@@ -8,7 +8,7 @@ And for each movie, it should return the ID, name, and year it was released.
 */
 
 const path = require('path');
-const { getMovies, getMovieById, client } = require('./graphql-client.js')
+const { getMovies, getMovieById } = require('./graphql-client.js')
 const { Pact, GraphQLInteraction, MatchersV3 } 
 = require('@pact-foundation/pact');
 
