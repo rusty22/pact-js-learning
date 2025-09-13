@@ -6,7 +6,7 @@
   "scripts": {
     "start:provider": "cross-env PORT=3001 node provider/provider-service.js",
     "test:web:consumer": "jest consumer-web/consumer-contract.glen.spec.js",
-    "publish:pact": "cross-env npx pact-broker publish ./pacts --consumer-app-version=1.0.3 --tag=main --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
+    "publish:pact": "cross-env npx pact-broker publish ./pacts --consumer-app-version=1.0.4 --tag=main --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
     "test:provider": "jest provider/provider-contract-glen.spec.js --testTimeout=20000",
     "start:graphql:server": "concurrently \"node graphql/provider/graphql-server.js\" \"npm run start:provider\"",
     "test:graphql:consumer": "jest graphql/consumer/graphql-client-contract.glen.spec.js",
