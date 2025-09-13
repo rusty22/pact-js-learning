@@ -4,11 +4,61 @@
   },
   "interactions": [
     {
+      "description": "a movie request",
+      "providerState": "Has a movie with specific ID",
+      "request": {
+        "body": {
+          "operationName": "MovieQuery",
+          "query": "\n                    query MovieQuery($movieId: Int!) {\n                        movie(movieId: $movieId) {\n                            id\n                            name\n                            year\n                        }\n                    }\n                    ",
+          "variables": {
+            "movieId": 1
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.query": {
+            "match": "regex",
+            "regex": "\\s*query\\s*MovieQuery\\(\\$movieId:\\s*Int!\\)\\s*\\{\\s*movie\\(movieId:\\s*\\$movieId\\)\\s*\\{\\s*id\\s*name\\s*year\\s*\\}\\s*\\}\\s*"
+          }
+        },
+        "method": "POST",
+        "path": "/graphql"
+      },
+      "response": {
+        "body": {
+          "data": {
+            "movie": {
+              "id": 1,
+              "name": "Demon Slayer: Infinity Castle",
+              "year": 2025
+            }
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "matchingRules": {
+          "$.body.data.movie.id": {
+            "match": "integer"
+          },
+          "$.body.data.movie.name": {
+            "match": "type"
+          },
+          "$.body.data.movie.year": {
+            "match": "integer"
+          }
+        },
+        "status": 200
+      }
+    },
+    {
       "description": "a movies request",
       "request": {
         "body": {
           "operationName": "MoviesQuery",
-          "query": "\n                query MoviesQuery {\n                    movies {\n                        id\n                        name\n                        year\n                    }\n                }\n                ",
+          "query": "\n                    query MoviesQuery {\n                        movies {\n                            id\n                            name\n                            year\n                        }\n                    }\n                    ",
           "variables": {}
         },
         "headers": {
@@ -53,7 +103,7 @@
       "request": {
         "body": {
           "operationName": "MovieQuery",
-          "query": "\n                query MovieQuery($movieId: Int!) {\n                    movie(movieId: $movieId) {\n                        id\n                        name\n                        year\n                    }\n                }\n                ",
+          "query": "\n                    query MovieQuery($movieId: Int!) {\n                        movie(movieId: $movieId) {\n                            id\n                            name\n                            year\n                        }\n                    }\n                    ",
           "variables": {
             "movieId": 1
           }
@@ -64,7 +114,7 @@
         "matchingRules": {
           "$.body.query": {
             "match": "regex",
-            "regex": "\\s*query\\s*MoviesQuery\\s*\\{\\s*movies\\s*\\{\\s*id\\s*name\\s*year\\s*\\}\\s*\\}\\s*"
+            "regex": "\\s*query\\s*MovieQuery\\(\\$movieId:\\s*Int!\\)\\s*\\{\\s*movie\\(movieId:\\s*\\$movieId\\)\\s*\\{\\s*id\\s*name\\s*year\\s*\\}\\s*\\}\\s*"
           }
         },
         "method": "POST",
@@ -85,17 +135,13 @@
         },
         "matchingRules": {
           "$.body.data.movie.id": {
-            "match": "type"
+            "match": "integer"
           },
           "$.body.data.movie.name": {
             "match": "type"
           },
           "$.body.data.movie.year": {
-            "match": "type"
-          },
-          "$.body.data.movies": {
-            "match": "type",
-            "min": 1
+            "match": "integer"
           }
         },
         "status": 200
@@ -104,11 +150,11 @@
   ],
   "metadata": {
     "pact-js": {
-      "version": "12.1.0"
+      "version": "15.0.1"
     },
     "pactRust": {
-      "ffi": "0.4.9",
-      "models": "1.1.11"
+      "ffi": "0.4.22",
+      "models": "1.2.3"
     },
     "pactSpecification": {
       "version": "2.0.0"

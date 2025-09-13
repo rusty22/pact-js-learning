@@ -1,37 +1,54 @@
 const { ApolloClient, InMemoryCache, gql, HttpLink } = require('@apollo/client');
 
-const client = new ApolloClient({
-  cache: new InMemoryCache({
-    addTypename: false,
-  }),
-  link: new HttpLink({
-    fetch: require('node-fetch'),
-    uri: 'http://127.0.0.1:4000/graphql',
-  }),
-});
+const createClient = () => {
+  return new ApolloClient({
+    cache: new InMemoryCache({
+      addTypename: false,
+    }),
+    link: new HttpLink({
+      fetch: require('node-fetch'),
+      uri: 'http://127.0.0.1:4000/graphql',
+    }),
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'network-only',
+      },
+      query: {
+        fetchPolicy: 'network-only',
+      },
+    },
+  });
+};
+
+const client = createClient();
 
 const getMovies = async () => {
-  const response = await client
-    .query({
-      query: gql`
-        query MoviesQuery {
-          movies {
-            id
-            name
-            year
+  const freshClient = createClient();
+  try {
+    const response = await freshClient
+      .query({
+        query: gql`
+          query MoviesQuery {
+            movies {
+              id
+              name
+              year
+            }
           }
-        }
-      `,
-    })
-    .then((result) => result.data)
-    .catch((err) => err.response);
-
-  return response;
+        `,
+        fetchPolicy: 'network-only',
+      });
+    
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
 };
 
 const getMovieById = async (movieId) => {
   try {
-    const response = await client
+    const freshClient = createClient();
+    const response = await freshClient
       .query({
         query: gql`
           query MovieQuery($movieId: Int!) {
@@ -45,11 +62,11 @@ const getMovieById = async (movieId) => {
         variables: {
           movieId,
         },
+        fetchPolicy: 'network-only',
       });
     
     return response.data;
   } catch (err) {
-    console.error('GraphQL query error:', err);
     throw err;
   }
 };
@@ -57,4 +74,6 @@ const getMovieById = async (movieId) => {
 module.exports = {
   getMovies,
   getMovieById,
+  client,
+  createClient,
 };
