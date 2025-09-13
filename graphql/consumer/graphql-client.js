@@ -8,24 +8,15 @@ const createClient = () => {
     link: new HttpLink({
       fetch: require('node-fetch'),
       uri: 'http://127.0.0.1:4000/graphql',
-    }),
-    defaultOptions: {
-      watchQuery: {
-        fetchPolicy: 'network-only',
-      },
-      query: {
-        fetchPolicy: 'network-only',
-      },
-    },
+    })
   });
 };
 
 const client = createClient();
 
 const getMovies = async () => {
-  const freshClient = createClient();
   try {
-    const response = await freshClient
+    const response = await client
       .query({
         query: gql`
           query MoviesQuery {
@@ -47,8 +38,7 @@ const getMovies = async () => {
 
 const getMovieById = async (movieId) => {
   try {
-    const freshClient = createClient();
-    const response = await freshClient
+    const response = await client
       .query({
         query: gql`
           query MovieQuery($movieId: Int!) {
@@ -74,6 +64,5 @@ const getMovieById = async (movieId) => {
 module.exports = {
   getMovies,
   getMovieById,
-  client,
   createClient,
 };
