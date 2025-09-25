@@ -10,7 +10,12 @@
     "test:provider": "jest provider/provider-contract-glen.spec.js --testTimeout=20000",
     "start:graphql:server": "concurrently \"node graphql/provider/graphql-server.js\" \"npm run start:provider\"",
     "test:graphql:consumer": "jest graphql/consumer/graphql-client-contract.glen.spec.js",
-    "test:graphql:provider": "concurrently \"npm run start:graphql:server\" \"jest graphql/provider/graphql-server-contract-glen.spec.js --testTimeout=20000\" --kill-others --success first"
+    "test:graphql:provider": "concurrently \"npm run start:graphql:server\" \"jest graphql/provider/graphql-server-contract-glen.spec.js --testTimeout=20000\" --kill-others --success first",
+    "start:kafka": "docker compose -f ./events/kafka-cluster.yml up -d",
+    "produce:kafka:message": "node events/event-producer/index.js",
+    "consume:kafka:message": "node events/consumer-event/server.js",
+    "test:event:consumer": "jest ./events/consumer-event/src/movies/movie.handler.pact.glen.test.js",
+    "test:event:producer": "jest --testTimeout 30000 ./events/event-producer/src/movie.event.pact.glen.test.js"
   },
   "author": "",
   "license": "ISC",
@@ -26,7 +31,7 @@
     "graphql": "16.8.1",
     "graphql-tag": "2.12.6",
     "joi": "17.10.2",
-    "kafkajs": "2.2.4",
+    "kafkajs": "^2.2.4",
     "react": "18.2.0",
     "swagger-jsdoc": "6.2.8",
     "swagger-ui-express": "5.0.0",

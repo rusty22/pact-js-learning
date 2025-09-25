@@ -1,0 +1,54 @@
+{
+  "consumer": {
+    "name": "ConsumerEvent"
+  },
+  "messages": [
+    {
+      "contents": {
+        "name": "The World's End",
+        "year": "2013"
+      },
+      "description": "a movie add event",
+      "matchingRules": {
+        "body": {
+          "$.name": {
+            "combine": "AND",
+            "matchers": [
+              {
+                "match": "type"
+              }
+            ]
+          },
+          "$.year": {
+            "combine": "AND",
+            "matchers": [
+              {
+                "match": "type"
+              }
+            ]
+          }
+        },
+        "metadata": {}
+      },
+      "metadata": {
+        "contentType": "application/json",
+        "kafka_topic": "movies"
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "15.0.1"
+    },
+    "pactRust": {
+      "ffi": "0.4.22",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "EventProducer"
+  }
+}
