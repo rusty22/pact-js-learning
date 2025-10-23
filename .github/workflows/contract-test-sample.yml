@@ -41,6 +41,8 @@ jobs:
       - name: Can I deploy GraphQL consumer?
         run: npm run can:i:deploy:graphql:consumer
       - name: Record web consumer deployment
+        if: github.ref == 'refs/heads/main'
         run: npm run record:web:consumer:deployment
-      - name: Record GraphQL consumer deployment
-        run: npm run record:graphql:consumer:deployment
+      - name: Record provider deployment
+        if: github.ref == 'refs/heads/main'
+        run: npm run record:provider:deployment
