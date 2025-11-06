@@ -50,7 +50,20 @@ describe('Pact Verification', () => {
       .then(output => {
         console.log('Pact Verification Complete!');
         console.log('Result:', output);
-        app.close();
       })
+      .catch(error => {
+        console.error('Pact Verification Failed!');
+        console.error('Error details:', error);
+        if (error.message) {
+          console.error('Error message:', error.message);
+        }
+        if (error.stack) {
+          console.error('Stack trace:', error.stack);
+        }
+        throw error;
+      })
+      .finally(() => {
+        app.close();
+      });
   });
 });
