@@ -18,7 +18,7 @@
     "test:event:producer": "jest --testTimeout 30000 ./events/event-producer/src/movie.event.pact.glen.test.js",
     "can:i:deploy:provider": "cross-env npx pact-broker can-i-deploy --pacticipant MoviesAPI --version=$GITHUB_SHA --to-environment production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
     "can:i:deploy:graphql:provider": "cross-env npx pact-broker can-i-deploy --pacticipant=GraphQLProvider --version=$GITHUB_SHA --to=production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
-    "can:i:deploy:consumer": "cross-env npx pact-broker can-i-deploy --pacticipant WebConsumer --version=$GITHUB_SHA --to-environment production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
+    "can:i:deploy:consumer": "cross-env npx pact-broker can-i-deploy --pacticipant WebConsumer --version=$GITHUB_SHA --to-environment production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN  --retry-while-unknown=10",
     "can:i:deploy:graphql:consumer": "cross-env npx pact-broker can-i-deploy --pacticipant GraphQLConsumer --version=$GITHUB_SHA --to-environment production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
     "record:provider:deployment": "cross-env npx pact-broker record-deployment --pacticipant MoviesAPI --version=$GITHUB_SHA --environment=production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
     "record:graphql:provider:deployment": "cross-env npx pact-broker record-deployment --pacticipant=GraphQLProvider --version=$GITHUB_SHA --environment=production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
