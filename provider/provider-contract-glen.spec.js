@@ -9,7 +9,6 @@ importData();
 const options = {
   provider: 'MoviesAPI',
   providerBaseUrl: `http://localhost:${port}`,
-  pactBrokerUrl: process.env.PACT_BROKER_BASE_URL,
   pactBrokerToken: process.env.PACT_BROKER_TOKEN,
   providerVersion: process.env.GITHUB_SHA,
   providerVersionBranch: process.env.GITHUB_BRANCH,
