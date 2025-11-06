@@ -29,6 +29,10 @@ const options = {
 if (process.env.PACT_PAYLOAD_URL) {
   console.log(`Pact payload URL specified: ${process.env.PACT_PAYLOAD_URL}`)
   options.pactUrls = [process.env.PACT_PAYLOAD_URL]
+  // Still need pactBrokerUrl when publishing verification results
+  if (process.env.PACT_BROKER_BASE_URL) {
+    options.pactBrokerUrl = process.env.PACT_BROKER_BASE_URL
+  }
 } else {
   console.log(
     `Using Pact Broker Base URL: 
