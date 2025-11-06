@@ -27,6 +27,17 @@ const options = {
   }
 }
 
+if (process.env.PACT_PAYLOAD_URL) {
+  console.log(`Pact payload URL specified: ${process.env.PACT_PAYLOAD_URL}`)
+  options.pactUrls = [process.env.PACT_PAYLOAD_URL]
+} else {
+  console.log(
+    `Using Pact Broker Base URL: 
+    ${process.env.PACT_BROKER_BASE_URL}`
+  )
+  options.pactBrokerUrl = process.env.PACT_BROKER_BASE_URL
+};
+
 const verifier = new Verifier(options);
 
 describe('Pact Verification', () => {
