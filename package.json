@@ -23,7 +23,9 @@
     "record:provider:deployment": "cross-env npx pact-broker record-deployment --pacticipant MoviesAPI --version=$GITHUB_SHA --environment=production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
     "record:graphql:provider:deployment": "cross-env npx pact-broker record-deployment --pacticipant=GraphQLProvider --version=$GITHUB_SHA --environment=production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
     "record:web:consumer:deployment": "cross-env npx pact-broker record-deployment --pacticipant=WebConsumer --version=$GITHUB_SHA --environment=production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
-    "record:graphql:consumer:deployment": "cross-env npx pact-broker record-deployment --pacticipant=GraphQLConsumer --version=$GITHUB_SHA --environment=production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN"
+    "record:graphql:consumer:deployment": "cross-env npx pact-broker record-deployment --pacticipant=GraphQLConsumer --version=$GITHUB_SHA --environment=production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
+    "start:bi:web": "node consumer-bi-directional/index.js",
+    "bi:consumer:cy:run": "cypress run --spec 'consumer-bi-directional/cypress/e2e/movies.cy.js'"
   },
   "author": "",
   "license": "ISC",
