@@ -25,7 +25,9 @@
     "record:web:consumer:deployment": "cross-env npx pact-broker record-deployment --pacticipant=WebConsumer --version=$GITHUB_SHA --environment=production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
     "record:graphql:consumer:deployment": "cross-env npx pact-broker record-deployment --pacticipant=GraphQLConsumer --version=$GITHUB_SHA --environment=production --broker-base-url=$PACT_BROKER_BASE_URL --broker-token=$PACT_BROKER_TOKEN",
     "start:bi:web": "node consumer-bi-directional/index.js",
-    "bi:consumer:cy:run": "cypress run --spec 'consumer-bi-directional/cypress/e2e/movies.cy.js'"
+    "bi:consumer:cy:run": "cypress run --spec 'consumer-bi-directional/cypress/e2e/movies.cy.js'",
+    "bi:swagger": "curl -X GET 'http://localhost:3001/swagger.json' > ./output/movies-api.json",
+    "bi:provider:newman": "newman run ./provider/postman-tests/chapter-11.postman_collection.json -r cli,json --reporter-json-export ./output/newman-report.json"
   },
   "author": "",
   "license": "ISC",
@@ -53,9 +55,9 @@
     "concurrently": "^9.2.1",
     "cross-env": "7.0.3",
     "cypress": "13.7.3",
-    "dredd": "14.1.0",
+    "dredd": "^14.1.0",
     "jest": "29.7.0",
-    "newman": "6.1.2",
+    "newman": "^6.1.2",
     "supertest": "6.3.4"
   }
 }
