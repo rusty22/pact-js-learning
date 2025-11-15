@@ -27,7 +27,8 @@
     "start:bi:web": "node consumer-bi-directional/index.js",
     "bi:consumer:cy:run": "cypress run --spec 'consumer-bi-directional/cypress/e2e/movies.cy.js'",
     "bi:swagger": "curl -X GET 'http://localhost:3001/swagger.json' > ./output/movies-api.json",
-    "bi:provider:newman": "newman run ./provider/postman-tests/chapter-11.postman_collection.json -r cli,json --reporter-json-export ./output/newman-report.json"
+    "bi:provider:newman": "newman run ./provider/postman-tests/chapter-11.postman_collection.json -r cli,json --reporter-json-export ./output/newman-report.json",
+    "bi:provider:dredd": "dredd"
   },
   "author": "",
   "license": "ISC",
